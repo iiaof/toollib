@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <button @click="changeHandler('child1')">child1</button>
+            <button @click="changeHandler('child2')">child2</button>
+        </div>
+        <div>
+            <component :is="currentChild"></component>
+        </div>
+    </div>
+</body>
+<script src="./vue.min.js"></script>
+<script>
+    
+    const child1 = {
+        template: `<div>
+                    <span>子组件的内容1</span>
+                   </div>`,
+    }
+
+    const child2 = {
+        template: `<div>
+                    <span>子组件的内容2</span>
+                   </div>`,
+        
+        
+    }
+
+    const app = new Vue({
+        el: '#app',
+        data:{
+            currentChild: ''
+        },
+        components: {
+            child1,
+            child2
+        },
+        methods: {
+            changeHandler(args) {
+                this.currentChild = args;
+            }
+        }
+    })
+</script>
+</html>
