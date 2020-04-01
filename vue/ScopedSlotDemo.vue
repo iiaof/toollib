@@ -22,6 +22,7 @@
 </body>
 <script src="./vue.min.js"></script>
 <script>
+    // 父组件通过插槽使用子组件的data
     const SlotComponent = {
         template: '#cpn',
         props: {
