@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <!-- input 的 v-model -->
+        <div>
+            <input v-model="message" placeholder="edit me">
+            <p>Message is : {{message}}</p>
+        </div>
+
+        <!-- textarea 的 v-model -->
+
+        <div>
+            <span>Multiline message is : </span>
+            <p style="white-space: pre-line;">{{message2}}</p>
+            <br>
+            <textarea v-model="message2"></textarea>
+        </div>
+
+        <!-- checkbox 的 v-model -->
+
+        <div>
+            <input type="checkbox" id="checkbox" v-model="checked">
+            <label for="checkbox">{{checked}}</label>
+        </div>
+        <div>
+            <input type="checkbox" id="1" value="1" v-model="checkedNames">
+            <label for="1">1</label>
+            <input type="checkbox" id="2" value="2" v-model="checkedNames">
+            <label for="2">2</label>
+            <input type="checkbox" id="3" value="3" v-model="checkedNames">
+            <label for="3">3</label>
+            <br>
+            <span>checked names: {{checkedNames}}</span>
+        </div>
+
+        <!-- 自定义组件 的 v-model -->
+
+        <br>
+        <br>
+
+        <div>
+            <span>自定义组件的 v-model</span>
+        </div>
+
+        <button @click="changeHandler2">+2</button>
+
+        <child-component v-model="lovingVue"></child-component>
+
+        <div><span>父组件的内容:</span>{{lovingVue}}</div>
+    </div>
+</body>
+<script src="./vue.min.js"></script>
+<script>
+
+    //其实最终的意思就是 自定义了一个属性和事件，放在model中，然后通过prop把父组件要传的属性传进来，通过event把子组件的修改emit出去同时修改父组件的
+    //内容。达到双向绑定。
+
+    const childComponent = {
+        model: {
+            prop: 'ischecked', //对应 props isChecked 就是父子组件里面传的参数
+            event: 'change123' //这里的事件可以改变 lovingVue 的值。这个事件其实就是用来通知父组件的。
+        },
+        props: {
+            ischecked: {
+                type:String,
+                default() {
+                    return ""
+                }
+            }
+        },
+        template: `<div><button
+                    @click="changeHandler">+1</button>
+                    <br><span>子组件的内容:</span><span>{{ischecked}}</span></div>`,
+        methods: {
+            changeHandler(event) {
+                this.$emit('change123',this.ischecked + 1);
+            }
+        }
+        
+    }
+
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'default',
+            message2:'',
+            checked: false,
+            checkedNames: [],
+            lovingVue: "123456"
+        },
+        components: {
+            childComponent
+        },
+        methods: {
+            changeHandler2(event) {
+                this.lovingVue = this.lovingVue + 2;
+            }
+        }
+    })
+</script>
+</html>
