@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <input type="text" id="input">
+</body>
+<script>
+
+    let input_el = document.getElementById('input');
+    input_el.addEventListener('input',debounce(handler,1000));
+
+    function handler (params) {
+        let data = input_el.value;
+        console.log('data : ',data);
+    }
+
+    function debounce (fn,delay = 500) {
+        let timer = null;
+        return function (args) {
+            
+            if (timer) {
+                clearTimeout(timer);
+            }
+            timer = setTimeout(() => {
+                fn(args);
+                timer = null;
+            },delay);
+        }
+    }
+</script>
+</html>
